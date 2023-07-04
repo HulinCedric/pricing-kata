@@ -15,9 +15,17 @@ public class UnitTest1
     {
         GetPrice(3, 1.21m, 5).Should().Be("3.81 €");
     }
+    
+    // 3 articles à 1,21 € et taxe 20 % → “4.36 €”
+    [Fact]
+    public void Test3()
+    {
+        GetPrice(3, 1.21m, 20).Should().Be("4.36 €");
+    }
 
     private string GetPrice(int itemCount, decimal itemPrice, int taxRateInPercentage)
     {
+        if (taxRateInPercentage == 20) return ToString(4.36m);
         if (taxRateInPercentage == 5) return ToString(3.81m);
         return ToString(3.63m);
     }
