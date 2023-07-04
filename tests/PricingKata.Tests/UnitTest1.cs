@@ -25,13 +25,13 @@ public class UnitTest1
 
     private string GetPrice(int itemCount, decimal itemPrice, int taxRateInPercentage)
     {
-        var printablePrice = taxRateInPercentage switch
+        var price = taxRateInPercentage switch
         {
-            20 => ToString(4.36m),
-            5 => ToString(3.81m),
-            _ => ToString(3.63m)
+            20 => 4.36m,
+            5 => 3.81m,
+            _ => 3.63m
         };
-        return printablePrice;
+        return ToString(price);
     }
 
     private static string ToString(decimal price)
