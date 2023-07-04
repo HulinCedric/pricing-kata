@@ -5,10 +5,10 @@ public class Cart
     public static string GetTotal(int itemCount, decimal itemPrice, int taxRateInPercentage)
     {
        var priceWithoutTax = itemCount * itemPrice;
-        
-        if (priceWithoutTax > 1000) return "1840.58 €";
-        
-        var priceWithTax = ApplyTax(priceWithoutTax, taxRateInPercentage);
+
+       var priceWithDiscount = priceWithoutTax > 1000 ? priceWithoutTax * 0.97m : priceWithoutTax;
+
+       var priceWithTax = ApplyTax(priceWithDiscount, taxRateInPercentage);
         return ToString(priceWithTax);
     }
 
