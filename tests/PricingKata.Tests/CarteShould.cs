@@ -4,19 +4,20 @@ public class Cart
 {
     public static string GetTotal(int itemCount, decimal itemPrice, int taxRateInPercentage)
     {
-       var priceWithoutTax = itemCount * itemPrice;
+        var priceWithoutTax = itemCount * itemPrice;
 
-       var priceWithDiscount = priceWithoutTax * GetDiscount(priceWithoutTax);
+        var priceWithDiscount = priceWithoutTax * GetDiscount(priceWithoutTax);
 
-       var priceWithTax = ApplyTax(priceWithDiscount, taxRateInPercentage);
-       
+        var priceWithTax = ApplyTax(priceWithDiscount, taxRateInPercentage);
+
         return ToString(priceWithTax);
     }
 
     private static decimal GetDiscount(decimal priceWithoutTax)
     {
-        var discount = priceWithoutTax > 1000 ? 0.97m : 1.00m;
-        return discount;
+        return priceWithoutTax > 5000 ? 0.95m :
+               priceWithoutTax > 1000 ? 0.97m :
+               1.00m;
     }
 
     private static decimal ApplyTax(decimal priceWithoutTax, int taxRateInPercentage)
@@ -38,10 +39,19 @@ public class CarteShould
     public void GetTotal(int itemCount, decimal itemPrice, int taxRateInPercentage, string expectedPrice)
         => Cart.GetTotal(itemCount, itemPrice, taxRateInPercentage).Should().Be(expectedPrice);
 
-    // - 1000 € → Remise 3% : - Ex : 5 x 345,00 € + taxe 10% → “1840.58 €”
     [Theory]
     [InlineData(5, 345, 10, "1840.58 €")]
     public void Get_total_with_3_percent_discount_when_total_price_without_tax_over_1000(
+        int itemCount,
+        decimal itemPrice,
+        int taxRateInPercentage,
+        string expectedPrice)
+        => Cart.GetTotal(itemCount, itemPrice, taxRateInPercentage).Should().Be(expectedPrice);
+
+
+    [Theory]
+    [InlineData(5, 1299, 10, "6787.28 €")]
+    public void Get_total_with_5_percent_discount_when_total_price_without_tax_over_5000(
         int itemCount,
         decimal itemPrice,
         int taxRateInPercentage,
