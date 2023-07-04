@@ -6,18 +6,23 @@ public class Cart
     {
         var priceWithoutTax = itemCount * itemPrice;
 
-        var priceWithDiscount = priceWithoutTax * GetDiscount(priceWithoutTax);
+        var priceWithDiscount = priceWithoutTax - GetDiscountAmount(priceWithoutTax);
 
         var priceWithTax = ApplyTax(priceWithDiscount, taxRateInPercentage);
 
         return ToString(priceWithTax);
     }
 
-    private static decimal GetDiscount(decimal priceWithoutTax)
+    private static decimal GetDiscountAmount(decimal priceWithoutTax)
     {
-        return priceWithoutTax > 5000 ? 0.95m :
-               priceWithoutTax > 1000 ? 0.97m :
-               1.00m;
+        var discountRateInPercentage =
+            priceWithoutTax > 5000 ? 5m :
+            priceWithoutTax > 1000 ? 3m :
+            0m;
+
+        var discountRate = discountRateInPercentage / 100m;
+
+        return priceWithoutTax * discountRate;
     }
 
     private static decimal ApplyTax(decimal priceWithoutTax, int taxRateInPercentage)
