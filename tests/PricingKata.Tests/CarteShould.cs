@@ -1,15 +1,8 @@
 namespace PricingKata.Tests;
 
-public class UnitTest1
+public class Cart
 {
-    [Theory]
-    [InlineData(3, 1.21, 0, "3.63 €")]
-    [InlineData(3, 1.21, 5, "3.81 €")]
-    [InlineData(3, 1.21, 20, "4.36 €")]
-    public void Test1(int itemCount, decimal itemPrice, int taxRateInPercentage, string expectedPrice)
-        => GetPrice(itemCount, itemPrice, taxRateInPercentage).Should().Be(expectedPrice);
-
-    private string GetPrice(int itemCount, decimal itemPrice, int taxRateInPercentage)
+    public static string GetTotal(int itemCount, decimal itemPrice, int taxRateInPercentage)
     {
         var priceWithoutTax = itemCount * itemPrice;
         var priceWithTax = ApplyTax(priceWithoutTax, taxRateInPercentage);
@@ -24,4 +17,14 @@ public class UnitTest1
 
     private static string ToString(decimal price)
         => FormattableString.Invariant($"{price:0.00} €");
+}
+
+public class CarteShould
+{
+    [Theory]
+    [InlineData(3, 1.21, 0, "3.63 €")]
+    [InlineData(3, 1.21, 5, "3.81 €")]
+    [InlineData(3, 1.21, 20, "4.36 €")]
+    public void GetTotal(int itemCount, decimal itemPrice, int taxRateInPercentage, string expectedPrice)
+        => Cart.GetTotal(itemCount, itemPrice, taxRateInPercentage).Should().Be(expectedPrice);
 }
