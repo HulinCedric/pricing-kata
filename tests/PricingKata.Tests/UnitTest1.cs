@@ -19,6 +19,11 @@ public class UnitTest1
     private string GetPrice(int itemCount, decimal itemPrice, int taxRateInPercentage)
     {
         if (taxRateInPercentage == 5) return "3.81 €";
-        return "3.63 €";
+        return ToString("3.63");
+    }
+
+    private static string ToString(string price)
+    {
+        return $"{price} €";
     }
 }
