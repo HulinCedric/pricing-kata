@@ -34,9 +34,9 @@ public class UnitTest1
     {
         var price = taxRateInPercentage switch
         {
-            20 => priceWithoutTax * 1.20m,
-            5 => priceWithoutTax * 1.05m,
-            0 => priceWithoutTax * 1.00m,
+            20 => priceWithoutTax * (20 / 100m + 1),
+            5 => priceWithoutTax * (5 / 100m + 1),
+            0 => priceWithoutTax * (0 / 100m + 1),
         };
         return price;
     }
