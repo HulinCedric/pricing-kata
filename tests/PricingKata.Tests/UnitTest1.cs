@@ -32,13 +32,7 @@ public class UnitTest1
 
     private static decimal ApplyTax(int taxRateInPercentage, decimal priceWithoutTax)
     {
-        var price = taxRateInPercentage switch
-        {
-            20 => priceWithoutTax * ConvertTaxRate(taxRateInPercentage),
-            5 => priceWithoutTax * ConvertTaxRate(taxRateInPercentage),
-            0 => priceWithoutTax * ConvertTaxRate(taxRateInPercentage),
-        };
-        return price;
+        return priceWithoutTax * ConvertTaxRate(taxRateInPercentage);
     }
 
     private static decimal ConvertTaxRate(decimal taxRateInPercentage)
