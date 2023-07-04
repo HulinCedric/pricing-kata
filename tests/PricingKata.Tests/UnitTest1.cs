@@ -34,12 +34,15 @@ public class UnitTest1
     {
         var price = taxRateInPercentage switch
         {
-            20 => priceWithoutTax * (20 / 100m + 1),
-            5 => priceWithoutTax * (5 / 100m + 1),
-            0 => priceWithoutTax * (0 / 100m + 1),
+            20 => priceWithoutTax * ConvertTaxRate(20),
+            5 => priceWithoutTax * ConvertTaxRate(5),
+            0 => priceWithoutTax * ConvertTaxRate(0),
         };
         return price;
     }
+
+    private static decimal ConvertTaxRate(decimal taxRateInPercentage)
+        => taxRateInPercentage / 100m + 1;
 
     private static string ToString(decimal price)
     {
