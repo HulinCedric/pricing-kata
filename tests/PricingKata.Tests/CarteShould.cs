@@ -6,7 +6,9 @@ public class Cart
     {
        var priceWithoutTax = itemCount * itemPrice;
 
-       var priceWithDiscount = priceWithoutTax > 1000 ? priceWithoutTax * 0.97m : priceWithoutTax;
+       var discount = priceWithoutTax > 1000 ? 0.97m :  1.00m;
+
+       var priceWithDiscount = priceWithoutTax * discount;
 
        var priceWithTax = ApplyTax(priceWithDiscount, taxRateInPercentage);
         return ToString(priceWithTax);
