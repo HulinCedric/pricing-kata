@@ -26,11 +26,11 @@ public class UnitTest1
     private string GetPrice(int itemCount, decimal itemPrice, int taxRateInPercentage)
     {
         var priceWithoutTax = itemCount * itemPrice;
-        var price = ApplyTax(taxRateInPercentage, priceWithoutTax);
-        return ToString(price);
+        var priceWithTax = ApplyTax(priceWithoutTax, taxRateInPercentage);
+        return ToString(priceWithTax);
     }
 
-    private static decimal ApplyTax(int taxRateInPercentage, decimal priceWithoutTax)
+    private static decimal ApplyTax(decimal priceWithoutTax, int taxRateInPercentage)
     {
         return priceWithoutTax * ConvertTaxRate(taxRateInPercentage);
     }
