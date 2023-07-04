@@ -25,12 +25,12 @@ public class UnitTest1
 
     private string GetPrice(int itemCount, decimal itemPrice, int taxRateInPercentage)
     {
-        
+        var priceWithoutTax = itemCount * itemPrice;
         var price = taxRateInPercentage switch
         {
-            20 => itemCount * itemPrice * 1.20m,
-            5 => itemCount * itemPrice * 1.05m,
-            0 => itemCount * itemPrice * 1.00m,
+            20 => priceWithoutTax * 1.20m,
+            5 => priceWithoutTax * 1.05m,
+            0 => priceWithoutTax * 1.00m,
         };
         return ToString(price);
     }
