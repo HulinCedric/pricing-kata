@@ -9,7 +9,7 @@ public class UnitTest1
         GetPrice(3, 1.21m, 0).Should().Be("3.63 €");
     }
 
-    private string GetPrice(int i, decimal @decimal, int i1)
+    private string GetPrice(int itemCount, decimal itemPrice, int taxRateInPercentage)
     {
         return "3.63 €";
     }
