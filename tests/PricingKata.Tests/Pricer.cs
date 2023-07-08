@@ -1,35 +1,41 @@
-using System.Globalization;
-
 namespace PricingKata.Tests;
 
-public class Pricer
+public static class Pricer
 {
-    public static string CalculatePrice(int itemCount, decimal itemPrice, decimal tax)
-    {
-        var priceWithoutTax = itemCount * itemPrice;
+    private static readonly (decimal Thresold, decimal Discount)[] DiscountGrid;
 
-        var priceWithDiscount = priceWithoutTax - GetDiscountedAmount(priceWithoutTax);
-
-        var taxAmount = GetTaxAmount(priceWithDiscount, tax);
-
-        var priceWithTax = priceWithDiscount + taxAmount;
-
-        return $"{priceWithTax.ToString("0.00", CultureInfo.InvariantCulture)} €";
-    }
-
-    private static decimal GetDiscountedAmount(decimal priceWithoutTax)
-    {
-        var discount = priceWithoutTax switch
+    static Pricer()
+        => DiscountGrid = new[]
         {
-            > 5000 => 5m,
-            > 1000 => 3m,
-            _ => 0m
+            (Thresold: 5000m, Discount: 0.05m),
+            (Thresold: 1000m, Discount: 0.03m),
+            (Thresold: 0m, Discount: 0m)
         };
 
+    public static string CalculatePrice(int itemCount, decimal itemPrice, decimal tax)
+    {
+        var priceWithoutTax = PriceWithoutTax(itemCount, itemPrice);
 
-        return priceWithoutTax * discount / 100m;
+        var priceWithDiscount = priceWithoutTax - DiscountAmount(priceWithoutTax);
+
+        var priceWithTax = priceWithDiscount + TaxAmount(priceWithDiscount, tax);
+
+        return PrintInEuro(priceWithTax);
     }
 
-    private static decimal GetTaxAmount(decimal priceWithoutTax, decimal tax)
+    private static decimal PriceWithoutTax(int itemCount, decimal itemPrice)
+        => itemCount * itemPrice;
+
+    private static decimal DiscountAmount(decimal priceWithoutTax)
+    {
+        var discount = DiscountGrid.First(d => priceWithoutTax > d.Thresold).Discount;
+
+        return priceWithoutTax * discount;
+    }
+
+    private static decimal TaxAmount(decimal priceWithoutTax, decimal tax)
         => priceWithoutTax * tax / 100;
+
+    private static string PrintInEuro(decimal priceWithTax)
+        => FormattableString.Invariant($"{priceWithTax:0.00} €");
 }
